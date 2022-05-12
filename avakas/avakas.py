@@ -230,6 +230,8 @@ class Avakas():
         """Apply prebuild data to project version"""
         if prefix:
             self._version.prerelease = (prefix,)
+        else:
+            self._version.prerelease = tuple()
 
         self._version.prerelease += tuple(str(element) for element in prebuild)
 
