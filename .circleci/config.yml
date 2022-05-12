@@ -1,0 +1,36 @@
+---
+version: 2.1
+
+orbs:
+  python: circleci/python@2.0.3
+  taskfile: threecomma/taskfile@0.1.0
+
+jobs:
+  test:
+    # ToDo matrix
+    docker: &job_docker_conf
+      - image: cimg/python3.9
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: "pip-dist"
+      - python/install-packages:
+          pkg-manager: pip
+          pip-dependency-file: "requirements-dev.txt"
+      - run:
+          name: Run Tests
+          command: make test
+
+  build:
+    docker: *job_docker_conf
+    steps:
+      - checkout
+      - python/dist
+
+workflows:
+  dev:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
