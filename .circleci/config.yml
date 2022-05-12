@@ -12,6 +12,12 @@ jobs:
       - image: cimg/python:3.9
     steps:
       - checkout
+      # Running `setup.py` requires a `version` file, and the more or less
+      # proper way to get that is to install avakas, though for testing this
+      # feels better
+      - run:
+          name: "fake version file"
+          command: "echo 'v0.0.0-testonly.0' > version"
       - python/install-packages:
           pkg-manager: "pip-dist"
       - python/install-packages:
