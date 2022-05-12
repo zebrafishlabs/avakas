@@ -10,6 +10,7 @@ jobs:
     docker: &job_docker_conf
       - image: cimg/python:3.8
     steps: &install_fake_version
+      - checkout
       - run: &create_fake_version_file
           # Running `setup.py` requires a `version` file, and the more or less
           # proper way to get that is to install avakas, though for testing this
