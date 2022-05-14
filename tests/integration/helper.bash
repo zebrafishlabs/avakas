@@ -25,6 +25,10 @@ function shared_setup() {
     unset GIT_EDITOR
     unset GIT_INDEX_FILE
     unset GIT_PREFIX
+
+    # Get yer CircleCI out of muh tests
+
+    unset CIRCLE_BUILD_NUM
 }
 
 shared_teardown() {

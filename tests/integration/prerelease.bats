@@ -23,11 +23,9 @@ teardown() {
 
 @test "bump a prerelease w/prefix and git build" {
   REV=$(current_rev $REPO)
-
     avakas_wrapper bump "$REPO" patch --prerelease --prerelease-prefix=alpha --build
     avakas_wrapper show "$REPO"
     [ "$output" == "0.0.1-alpha.1+${REV}" ]
-
 }
 
 @test "bump a prerelease w/prefix and git (jenkins) build" {
@@ -60,9 +58,6 @@ teardown() {
 @test "bump a prerelease w/prefix and git (gha) build" {
     export GITHUB_RUN_ID=abcd
     export GITHUB_RUN_NUMBER=1
-    BUILD_NUM="$CIRCLE_BUILD_NUM"
-    unset CIRCLE_BUILD_NUM
-
     REV=$(current_rev $REPO)
     avakas_wrapper bump "$REPO" patch --prerelease --prerelease-prefix=alpha --build
     avakas_wrapper show "$REPO"
