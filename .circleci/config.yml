@@ -91,7 +91,7 @@ jobs:
     steps:
       - attach_workspace:
           at: '.'
-      - run: 'ls dist'
+      - run: 'ls dist/avakas-${CIRCLE_TAG}-py3-none-any.whl'
 
 workflows:
   # Combining all three as:
