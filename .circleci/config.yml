@@ -139,4 +139,4 @@ workflows:
       - dist:
           <<: *tags_only
           requires:
-            build
+            - build
