@@ -88,15 +88,25 @@ workflows:
   build_test_maybe_tag:
     jobs:
       - get_version
-      - build
-      - test
+      - build:
+          requires:
+            - get_version
+      - test:
+          requires:
+            - build
       - perchance_a_bump:
+          requires:
+            - test
+            - build
           filters:
             branches:
               ignore:
                 - mainline
           args: "--prerelease --prerelease-prefix pre"
       - perchance_a_bump:
+          requires:
+            - test
+            - build
           filters:
             branches:
               only:
