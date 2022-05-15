@@ -23,18 +23,33 @@ jobs:
           name: Get correct version
           command: avakas show . --flavor git-native
       - persist_to_workspace:
-          root: .
+          root: '.'
           paths:
             - version
 
+  build:
+    docker: *job_docker_conf
+    steps:
+      - checkout
+      - attach_workspace:
+          at: '.'
+      - python/dist
+      - persist_to_workspace:
+          root: '.'
+          paths:
+            - dist
 
   test:
     # ToDo matrix
     docker: *job_docker_conf
     steps:
       - checkout
-      - run: *create_fake_version_file
-      - python/install-packages: *install_setup_py
+      - attach_workspace:
+          at: '.'
+      - run: &install_built_wheel
+          name: install built wheel
+          command: pip install dist/avakas-$(cat version)-py3-none-any.whl
+
       # install dev requirements for running tests
       - python/install-packages:
           pkg-manager: pip
@@ -43,20 +58,46 @@ jobs:
           name: Run Tests
           command: make test
 
-  build:
+# ToDo, parameterize these, want to do it with some logic so a bool param gets
+# me the --prerelease, but don't want to sink the time figuring that out quite
+# yet -TMJ
+  perchance_a_bump:
     docker: *job_docker_conf
+    parameters:
+      args:
+        type: string
+        default: ""
+
     steps:
       - checkout
       - attach_workspace:
-          at: .
-      - python/dist
+          at: '.'
+      - run: *install_built_wheel
+      - run:
+          name: you can bump if you wanna
+          command: avakas bump "." auto --dry-run --flavor git-native --default-bump patch --branch mainline << parameters.args >>
+
 
 workflows:
-  dev:
+  # Combining all three as:
+  #   * there's not a situation where we want to not do any steps (the
+  #     conditionals for maybe tag are in `maybe tag` step).
+  #   * We can just share a persisted workspace among jobs. We _could_ do test
+  #     and perchance_a_bump installing the package from setup.py or whatever,
+  #     but I (Tyler) see no reason to do so -TMJ
+  build_test_maybe_tag:
     jobs:
-      - test
       - get_version
-      - build:
-          requires:
-            - get_version
-            - test
+      - build
+      - test
+      - perchance_a_bump:
+          filters:
+            branches:
+              ignore:
+                - mainline
+          args: "--prerelease --prerelease-prefix pre"
+      - perchance_a_bump:
+          filters:
+            branches:
+              only:
+                - mainline

@@ -163,7 +163,7 @@ def gen_arg_parser():
                           default=True)
     writable.add_argument('--with-hooks', dest='with_hooks',
                           help='Run git hooks', default=False)
-    writable.add_argument('--dry-run',
+    writable.add_argument('--dry-run', '-d', '--dry',
                           dest='dry',
                           help='Will not push to git',
                           action='store_true')
