@@ -79,6 +79,9 @@ jobs:
       - attach_workspace:
           at: '.'
       - run: *install_built_wheel
+      - add_ssh_keys:
+          fingerprints:
+            - "7a:21:b1:cf:4c:f2:cf:26:20:9d:cd:c9:ce:9e:76:9f"
       - run:
           name: you can bump if you wanna
           command: avakas bump "." auto --flavor git-native --default-bump patch --branch mainline << parameters.args >>
