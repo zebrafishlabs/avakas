@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sys
+import os
 
-import avakas
 
 try:
     from setuptools import setup
@@ -11,10 +11,14 @@ except ImportError:
 
 
 def main():
-    project = avakas.flavors.AvakasGitNative(
-        'version', ['.'], branch='mainline', tag_prefix='')
+    vsn_path = "%s/version" % os.path.dirname(os.path.abspath(__file__))
+    if not os.path.exists(vsn_path):
+        print("%s is missing" % vsn_path)
+        sys.exit(1)
 
-    version = project.read()
+    vsn_file = open(vsn_path, 'r')
+    version = vsn_file.read()
+    vsn_file.close()
 
     setup(name='avakas',
           version=version,

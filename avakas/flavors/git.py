@@ -41,10 +41,9 @@ class AvakasGitNative(Avakas):
         # pylint: disable=unused-argument
         return False
 
-    def __init__(self, filename, directory, tag_prefix='v', **kwargs):
+    def __init__(self, filename, tag_prefix='v', **kwargs):
         # not sure if setting tag_prefix to ! None is too prescriptive
-
-        super().__init__(directory, **kwargs)
+        super().__init__(**kwargs)
         self.tag_prefix = tag_prefix
         self.version_filename = filename
         self.repo = self.__load_git()
