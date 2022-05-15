@@ -81,7 +81,7 @@ jobs:
       - run: *install_built_wheel
       - run:
           name: you can bump if you wanna
-          command: avakas bump "." auto --dry-run --flavor git-native --default-bump patch --branch mainline << parameters.args >>
+          command: avakas bump "." auto --flavor git-native --default-bump patch --branch mainline << parameters.args >>
 
   dist:
     docker: *job_docker_conf
@@ -131,7 +131,7 @@ workflows:
       # version of avakas (built off of the same commit) to bump the version
       # rather than this kinda hacky rebuild. PEP517 compliant build system
       # would also make some of these issues easier
-      - get_version
+      - get_version: *tags_only
       - build:
           <<: *tags_only
           requires:
