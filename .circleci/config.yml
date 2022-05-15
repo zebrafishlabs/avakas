@@ -5,6 +5,12 @@ orbs:
   python: circleci/python@2.0.3
   taskfile: threecomma/taskfile@0.1.0
 
+tags_only: &tags_only
+  filters:
+    tags:
+      only: /.+/
+    branches:
+      ignore: /.*/
 jobs:
   get_version:
     docker: &job_docker_conf
@@ -77,6 +83,12 @@ jobs:
           name: you can bump if you wanna
           command: avakas bump "." auto --dry-run --flavor git-native --default-bump patch --branch mainline << parameters.args >>
 
+  dist:
+    docker: *job_docker_conf
+    steps:
+      - attach_workspace:
+          at: '.'
+      - run: 'ls dist'
 
 workflows:
   # Combining all three as:
@@ -111,3 +123,20 @@ workflows:
             branches:
               only:
                 - mainline
+  dist:
+    jobs:
+      # I'm not sure how to get the circleCI artifacts from another workflow
+      # run, and I'm not going to block on that now. This should be investigated
+      # to avoid the rebuild. would love to get the previous wheel, and use that
+      # version of avakas (built off of the same commit) to bump the version
+      # rather than this kinda hacky rebuild. PEP517 compliant build system
+      # would also make some of these issues easier
+      - get_version
+      - build:
+          <<: *tags_only
+          requires:
+            - get_version
+      - dist:
+          <<: *tags_only
+          requires:
+            build
