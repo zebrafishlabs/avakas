@@ -117,7 +117,7 @@ workflows:
             branches:
               ignore:
                 - mainline
-          args: "--prerelease --prerelease-prefix pre" --build
+          args: "--prerelease --prerelease-prefix pre --build"
       - perchance_a_bump:
           requires:
             - test
