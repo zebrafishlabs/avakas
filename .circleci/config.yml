@@ -91,6 +91,9 @@ jobs:
     steps:
       - attach_workspace:
           at: '.'
+      - cloudrun/init:
+          gcloud-service-key: GCLOUD_SERVICE_KEY_PIP_DEPLOY
+      - run: ls dist -la
       - run: 'ls dist/avakas-${CIRCLE_TAG}-py3-none-any.whl'
 
 workflows:
@@ -141,5 +144,7 @@ workflows:
             - get_version
       - dist:
           <<: *tags_only
+          context:
+            - gcp_pip_deploy
           requires:
             - build
