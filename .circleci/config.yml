@@ -130,6 +130,7 @@ workflows:
             branches:
               only:
                 - mainline
+          args: "--default-bump patch"
   dist:
     jobs:
       # I'm not sure how to get the circleCI artifacts from another workflow
