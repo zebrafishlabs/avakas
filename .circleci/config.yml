@@ -95,7 +95,9 @@ jobs:
       - cloudrun/init:
           gcloud-service-key: GCLOUD_SERVICE_KEY_PIP_DEPLOY
       - run: ls dist -la
-      - run: 'ls dist/avakas-${CIRCLE_TAG}-py3-none-any.whl'
+      - run: 'ls dist/avakas-*-py3-none-any.whl'
+      - run: scripts/setup_pip_repo.py
+      - run: twine upload -r python dist/*
 
 workflows:
   # Combining all three as:
