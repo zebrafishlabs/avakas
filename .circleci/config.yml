@@ -121,7 +121,7 @@ workflows:
             branches:
               ignore:
                 - mainline
-          args: "--prerelease --prerelease-prefix pre --build --branch $CIRCLE_BRANCH"
+          args: "--prerelease --prerelease-prefix rc --build --branch $CIRCLE_BRANCH"
       - perchance_a_bump:
           requires:
             - test
