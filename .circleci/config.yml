@@ -55,7 +55,9 @@ jobs:
           at: '.'
       - run: &install_built_wheel
           name: install built wheel
-          command: pip install dist/avakas-$(cat version)-py3-none-any.whl
+          # using the splat here since we're in CI, and avakas doesn't currently
+          # make pep-404 compliant versions for prereleases
+          command: pip install dist/avakas-*-py3-none-any.whl
 
       # install dev requirements for running tests
       - python/install-packages:
