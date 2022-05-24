@@ -28,7 +28,7 @@ jobs:
           pkg-manager: "pip-dist"
       - run:
           name: Get correct version
-          command: avakas show . --flavor git-native
+          command: avakas show . --flavor git-native --branch ${CIRCLE_BRANCH}
       - persist_to_workspace:
           root: '.'
           paths:
