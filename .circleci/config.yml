@@ -92,6 +92,7 @@ jobs:
   dist:
     docker: *job_docker_conf
     steps:
+      - checkout
       - attach_workspace:
           at: '.'
       - cloudrun/init:
