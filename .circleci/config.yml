@@ -95,6 +95,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: '.'
+      - python/install-packages:
+          pkg-manager: pip
+          pip-dependency-file: "requirements-dev.txt"
       - cloudrun/init:
           gcloud-service-key: GCLOUD_SERVICE_KEY_PIP_DEPLOY
       - run:
