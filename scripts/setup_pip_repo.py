@@ -5,7 +5,7 @@ twine for the gcloud repo
 """
 
 from argparse import ArgumentParser
-from configparser import ConfigParser, SectionProxy
+from configparser import ConfigParser
 from enum import Enum
 from pathlib import Path
 import subprocess
@@ -20,7 +20,7 @@ class CONF_LEVEL(Enum):
     GLOBAL = '--global'
 
 
-def _update_pypirc(**new_config: dict[str, SectionProxy]) -> None:
+def _update_pypirc(**new_config: dict) -> None:
     """
     Update a ~.pypirc (or create if nonexistent) to include configuration
     passed in.
