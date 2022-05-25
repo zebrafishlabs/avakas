@@ -15,7 +15,7 @@ DOT_CONF_KEYS = frozenset(['global'])
 
 
 class CONF_LEVEL(Enum):
-    SITE = '--local'
+    SITE = '--site'
     USER = '--user'
     GLOBAL = '--global'
 
@@ -43,7 +43,7 @@ def _update_pypirc(**new_config: dict) -> None:
 
 def _update_pip_dot_conf(index_url: str, level=CONF_LEVEL.SITE) -> None:
 
-    subprocess.check_call(['git', 'config', level.value, 'global.extra-index-url', index_url])
+    subprocess.check_call(['pip', 'config', 'set', level.value, 'global.extra-index-url', index_url])
 
 
 def main():
