@@ -155,6 +155,6 @@ workflows:
           <<: *tags_only
           context:
             - gcp_pip_deploy
-            - tjachetta-playpen
+            - infra_gcp_context
           requires:
             - build
