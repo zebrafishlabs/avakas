@@ -99,7 +99,9 @@ jobs:
       - run: ls dist -la
       - run: 'ls dist/avakas-*-py3-none-any.whl'
       - run: scripts/setup_pip_repo.py
-      - run: twine upload -r python dist/*
+      - run:
+          name: upload with twine
+          command: twine upload -r python dist/*
 
 workflows:
   # Combining all three as:
