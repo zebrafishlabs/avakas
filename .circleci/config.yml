@@ -97,8 +97,10 @@ jobs:
           at: '.'
       - cloudrun/init:
           gcloud-service-key: GCLOUD_SERVICE_KEY_PIP_DEPLOY
-      - run: ls dist -la
-      - run: 'ls dist/avakas-*-py3-none-any.whl'
+      - run:
+          name: set artifact location
+          command: gcloud --quiet config set artifacts/location $GOOGLE_COMPUTE_ZONE
+
       - run: scripts/setup_pip_repo.py
       - run:
           name: upload with twine
