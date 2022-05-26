@@ -34,6 +34,17 @@ jobs:
           paths:
             - version
 
+  place_version:
+    docker: *job_docker_conf
+    steps:
+      - run:
+          name: place version file
+          command: 'echo "${CIRCLE_TAG}" > version'
+      - persist_to_workspace:
+          root: '.'
+          paths:
+            - version
+
   build:
     docker: *job_docker_conf
     steps:
@@ -151,11 +162,11 @@ workflows:
       # version of avakas (built off of the same commit) to bump the version
       # rather than this kinda hacky rebuild. PEP517 compliant build system
       # would also make some of these issues easier
-      - get_version: *tags_only
+      - place_version: *tags_only
       - build:
           <<: *tags_only
           requires:
-            - get_version
+            - place_version
       - dist:
           <<: *tags_only
           context:
