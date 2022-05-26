@@ -109,7 +109,8 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
           pip-dependency-file: "requirements-dev.txt"
-      - gcp-cli/install_and_initialize_cli:
+      - gcp-cli/install
+      - gcp-cli/initialize: &init_cli
           gcloud-service-key: GCLOUD_SERVICE_KEY_PIP_DEPLOY
       - run:
           name: set artifact location
