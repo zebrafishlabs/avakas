@@ -4,7 +4,7 @@ version: 2.1
 orbs:
   python: circleci/python@2.0.3
   taskfile: threecomma/taskfile@0.1.0
-  cloudrun: circleci/gcp-cloud-run@1.0.2
+  gcp-cli: circleci/gcp-cli@2.4.1
 
 tags_only: &tags_only
   filters:
@@ -109,7 +109,7 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
           pip-dependency-file: "requirements-dev.txt"
-      - cloudrun/init:
+      - gcp-cli/install_and_initialize_cli:
           gcloud-service-key: GCLOUD_SERVICE_KEY_PIP_DEPLOY
       - run:
           name: set artifact location
